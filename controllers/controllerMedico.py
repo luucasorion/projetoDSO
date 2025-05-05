@@ -9,5 +9,17 @@ class ControllerMedico(Medico):
         informacoes = [crm, nome, especialidade]
         self.__medicos.append(informacoes)
     
-    def escolherMedico
+    def escolherMedico(self, crm : str):
+        for medico in self.__medicos:
+            if medico[0] == crm:
+                return medico
+    
+    def excluirMedico(self, crm : str):
+        for medico in self.__medicos:
+            if medico[0] == crm: 
+                self.__medicos.remove(medico)
+                return
+            
+                        
+
     
