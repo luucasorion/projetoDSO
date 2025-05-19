@@ -7,16 +7,18 @@ class Pessoa(ABC):
         self.__id = id
         self.__nome = nome
     
-    @abstractmethod
+    
     @property
+    @abstractmethod
     def id(self):
         return self.__id
     @id.setter
     def id(self, id):
         self.__id = id
     
-    @abstractmethod
+    
     @property
+    @abstractmethod
     def nome(self):
         return self.__nome
     @nome.setter
