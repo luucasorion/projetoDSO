@@ -1,7 +1,7 @@
 from datetime import date, time
 class Consulta():
-    def __init__(self, id : str, data : date, hora : time, status : str):
-        self.__id = id
+    def __init__(self, identidade : str, data: date, hora: time, status: str):
+        self.__identidade = identidade
         self.__data = data
         self.__hora = hora
         self.__status = status

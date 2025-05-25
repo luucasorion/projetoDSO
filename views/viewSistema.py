@@ -1,7 +1,7 @@
 class ViewSistema:
     #tratar dados
     def tela_opcoes(self):
-        print("-------- SisLivros ---------")
+        print("-------- Sistema ---------")
         print("Escolha sua opcao")
         print("1 - Medicos")
         print("2 - Pacientes")
