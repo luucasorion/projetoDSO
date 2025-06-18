@@ -77,7 +77,7 @@ class ControllerConsulta:
                 })
 
     def retornar(self):
-        self.__controlador_sistema.abreTela()
+        self.__controlador_sistema.inicializarSistema()
 
     def abreTela(self):
         opcoes = {

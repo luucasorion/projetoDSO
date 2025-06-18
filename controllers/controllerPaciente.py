@@ -60,7 +60,7 @@ class ControllerPaciente():
     def retornar(self):
             with open("data/paciente.pkl", "wb") as f:
                 pickle.dump(self.__pacientes, f)
-            self.__controlador_sistema.abreTela()
+            self.__controlador_sistema.inicializarSistema()
 
     def abreTela(self):
         with open("data/paciente.pkl", "rb") as f:

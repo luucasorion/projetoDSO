@@ -3,29 +3,15 @@ from controllers.controllerMedico import ControllerMedico
 from controllers.controllerPaciente import ControllerPaciente
 from controllers.controladorConsultas import ControllerConsulta
 
-class ControladorSistema():
-
+class ControladorSistema:
     def __init__(self):
         self.__controllerMedico = ControllerMedico(self)
         self.__controlador_paciente = ControllerPaciente(self)
         self.__controlador_consulta = ControllerConsulta(self)
-        self.__tela_sistema = ViewSistema()
-    
-    @property
-    def controllerMedicos(self):
-        return self.__controllerMedico
-    
-    @property
-    def controllerPacientes(self):
-        return self.__controlador_paciente
-    
-    @property
-    def controllerConsulta(self):
-        return self.__controlador_consulta
-
+        self.__tela_sistema = ViewSistema(self.abreTela)
 
     def inicializarSistema(self):
-        self.abreTela()
+        self.__tela_sistema.janela_opcoes()
 
     def cadastrarMedico(self):
         self.__controllerMedico.abreTela()
@@ -35,16 +21,18 @@ class ControladorSistema():
 
     def cadastraConsulta(self):
         self.__controlador_consulta.abreTela()
-    
 
     def encerraSistema(self):
         exit(0)
 
-    def abreTela(self):
-        listaOpcoes = {1: self.cadastrarMedico, 2: self.cadastrarPaciente, 3: self.cadastraConsulta,
-                        0: self.encerraSistema}
+    def abreTela(self, opcao):
+        listaOpcoes = {
+            3: self.encerraSistema,
+            0: self.cadastrarMedico,
+            1: self.cadastrarPaciente,
+            2: self.cadastraConsulta
+        }
+        funcao = listaOpcoes.get(opcao)
+        if funcao:
+            funcao()
 
-        while True:
-            opcaoEscolhida = self.__tela_sistema.tela_opcoes()
-            funcaoEscolhida = listaOpcoes[opcaoEscolhida]
-            funcaoEscolhida()
