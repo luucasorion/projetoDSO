@@ -1,5 +1,7 @@
 from datetime import date, time
-class Consulta():
+from .paciente import Paciente
+from .medico import Medico
+class Consulta(Paciente, Medico):
     def __init__(self, identidade : str, data: date, hora: time, status: str):
         self.__identidade = identidade
         self.__data = data

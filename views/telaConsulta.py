@@ -56,7 +56,7 @@ class TelaConsulta:
         }
 
     def mostrarConsulta(self, dadosConsulta):
-        print(f"\nCPF DO PACIENTE: {dadosConsulta.get('CPF_Paciente')}\n"
+        print(f"\nCPF DO PACIENTE: {dadosConsulta.get('CPF')}\n"
               f"CRM DO MÉDICO: {dadosConsulta.get('CRM_Medico')}\n"
               f"DATA DA CONSULTA: {dadosConsulta.get('Data').strftime('%d/%m/%Y')}\n"
               f"HORÁRIO DA CONSULTA: {dadosConsulta.get('Horario').strftime('%H:%M')}\n")

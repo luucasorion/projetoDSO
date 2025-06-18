@@ -1,3 +1,4 @@
+import pickle
 from views.viewPaciente import TelaPaciente
 from models.paciente import Paciente
 
@@ -57,9 +58,15 @@ class ControllerPaciente():
             })
 
     def retornar(self):
-        self.__controlador_sistema.abreTela()
+            with open("data/paciente.pkl", "wb") as f:
+                pickle.dump(self.__pacientes, f)
+            self.__controlador_sistema.abreTela()
 
     def abreTela(self):
+        with open("data/paciente.pkl", "rb") as f:
+            nova_pessoa = pickle.load(f)
+        self.__pacientes = nova_pessoa
+
         listaOpcoes = {
             1: self.incluirPaciente,
             2: self.alterarPaciente,
