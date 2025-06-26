@@ -1,4 +1,4 @@
-import pickle
+from data.dao.medico_DAO import MedicoDAO
 from views.viewMedico import TelaMedico
 from models.medico import Medico
 
@@ -6,26 +6,25 @@ from models.medico import Medico
 
 class ControllerMedico():
     def __init__(self, controladorSistemas):
-        super().__init__()
-        self.__medicos = []
         self.__telaMedicos = TelaMedico()
         self.__controlador_sistema = controladorSistemas
+        self.__medico_dao = MedicoDAO()
 
     
     def incluirMedico(self):
         dados_medico = self.__telaMedicos.pegarDadosMedico()
-        crm = self.selecionarMedicoPorCrm(dados_medico["CRM"])
-        if crm is None:
+        crm = dados_medico["CRM"]
+        medico_existe = self.selecionarMedicoPorCrm(crm)
+        if medico_existe is None:
             medico = Medico(dados_medico["CRM"], dados_medico["Nome"], dados_medico["Especialidade"])
-            self.__medicos.append(medico)
+            self.__medico_dao.add(crm, medico)
        
-           
         else:
             self.__telaMedicos.mostrarMensagem("ATENCAO: medico já existente")
             
 
     def selecionarMedicoPorCrm(self, crm):
-        for medico in self.__medicos:
+        for medico in self.__medico_dao.get_all():
             if(medico.identidade == crm):
                 return medico
         return None
@@ -50,30 +49,28 @@ class ControllerMedico():
         medico = self.selecionarMedicoPorCrm(crm)
         
         if(medico is not None):
-            for medico in self.__medicos:
+            for medico in self.__medico_dao.get_all():
              if medico.identidade == crm:
-                self.__medicos.remove(medico)
+                self.__medico_dao.remove(medico)
                 return 
         self.__telaMedicos.mostrarMensagem("ATENCAO: medico não existente")
        
             
-    def listarMedicos(self):    
-        for medico in self.__medicos:
-    
-            self.__telaMedicos.mostrarMedico({"Nome": medico.nome, "CRM": medico.identidade, "Especialidade" : medico.especialidade})
+    def listarMedicos(self):
+        if self.__medico_dao is not None:    
+            for medico in self.__medico_dao.get_all():
+                self.__telaMedicos.mostrarMedico({"Nome": medico.nome, "CRM": medico.identidade, "Especialidade" : medico.especialidade})
+            return
+        print("nao ha medicos para lsitar!")
+        return
     
     def retornar(self):
-        with open("data/medico.pkl", "wb") as f:
-            pickle.dump(self.__medicos, f)
+        self.__medico_dao.save()
         self.__controlador_sistema.inicializarSistema()
         
         
 
     def abreTela(self):
-        with open("data/medico.pkl", "rb") as f:
-            nova_pessoa = pickle.load(f)
-        self.__medicos = nova_pessoa
-        
         listaOpcoes = {
             1: self.incluirMedico, 
             2: self.alterarMedico, 

@@ -7,10 +7,12 @@ class ViewSistema:
 
     def janela_opcoes(self):
         self.janela = tk.Tk()
+        self.janela.configure(bg="#fbf3e1")
         self.janela.geometry("400x400")
         estilo = ttk.Style()
         estilo.theme_use('clam')
-
+        self.espaco = tk.Label(self.janela,bg="#fbf3e1", height=2)
+        self.espaco.pack()
         texto = ["Medicos", "Pacientes", "Consultas", "Finalizar Sistema"]
 
         for i in range(4):

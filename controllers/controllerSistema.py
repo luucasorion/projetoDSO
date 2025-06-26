@@ -5,7 +5,7 @@ from controllers.controladorConsultas import ControllerConsulta
 
 class ControladorSistema:
     def __init__(self):
-        self.__controllerMedico = ControllerMedico(self)
+        self.controllerMedico = ControllerMedico(self)
         self.__controlador_paciente = ControllerPaciente(self)
         self.__controlador_consulta = ControllerConsulta(self)
         self.__tela_sistema = ViewSistema(self.abreTela)
@@ -14,7 +14,7 @@ class ControladorSistema:
         self.__tela_sistema.janela_opcoes()
 
     def cadastrarMedico(self):
-        self.__controllerMedico.abreTela()
+        self.controllerMedico.abreTela()
 
     def cadastrarPaciente(self):
         self.__controlador_paciente.abreTela()

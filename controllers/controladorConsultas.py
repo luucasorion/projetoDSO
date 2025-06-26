@@ -1,6 +1,9 @@
 from views.telaConsulta import TelaConsulta
 from models.consulta import Consulta
 from datetime import datetime
+import pickle
+from  models.medico import Medico
+from models.paciente import Paciente
 
 
 class ControllerConsulta:
@@ -9,9 +12,38 @@ class ControllerConsulta:
         self.__consultas = []
         self.__telaConsulta = TelaConsulta()
         self.__controlador_sistema = controladorSistemas
+        self.__medicos: list[Medico] = []
+        self.__pacientes: list[Paciente] = []
+        
 
-    def incluirConsulta(self):
+    def abreTela(self):
+        with open("data/paciente.pkl", "rb") as f:
+            nova_pessoa = pickle.load(f)
+        self.__pacientes = nova_pessoa
+
+        with open("data/medico.pkl", "rb") as f:
+            nova_pessoa = pickle.load(f)
+        self.__medicos = nova_pessoa
+        
+        opcoes = {
+        1: self.incluirConsulta,
+        2: self.alterarConsulta,
+        3: self.listarConsultas,
+        4: self.excluirConsulta,
+        0: self.retornar
+        }
+
+        while True:
+            opcao = self.__telaConsulta.telaOpcoes()
+            opcoes[opcao]()
+
+    
+    
+    
+    def incluirConsulta(self): 
+        self.__controlador_sistema.controllerMedico.listarMedicos()
         dados_consulta = self.__telaConsulta.pegarDadosConsulta()
+         
         consulta_existente = self.selecionarConsultaPorCpfEData(
             dados_consulta["CPF_Paciente"], dados_consulta["Data"], dados_consulta["Horario"]
         )
@@ -79,15 +111,4 @@ class ControllerConsulta:
     def retornar(self):
         self.__controlador_sistema.inicializarSistema()
 
-    def abreTela(self):
-        opcoes = {
-            1: self.incluirConsulta,
-            2: self.alterarConsulta,
-            3: self.listarConsultas,
-            4: self.excluirConsulta,
-            0: self.retornar
-        }
-
-        while True:
-            opcao = self.__telaConsulta.telaOpcoes()
-            opcoes[opcao]()
+   

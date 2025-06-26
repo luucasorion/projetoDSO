@@ -1,25 +1,25 @@
+from data.dao.paciente_DAO import PacienteDAO
 import pickle
 from views.viewPaciente import TelaPaciente
 from models.paciente import Paciente
 
 class ControllerPaciente():
     def __init__(self, controladorSistemas):
-        super().__init__()
-        self.__pacientes = []
+        self.__paciente_dao = PacienteDAO()
         self.__telaPacientes = TelaPaciente()
         self.__controlador_sistema = controladorSistemas
 
     def incluirPaciente(self):
         dados_paciente = self.__telaPacientes.pegarDadosPaciente()
-        paciente = self.selecionarPacientePorCpf(dados_paciente["CPF"])
-        if paciente is None:
+        cpf = self.selecionarPacientePorCpf(dados_paciente["CPF"])
+        if cpf is None:
             paciente = Paciente(dados_paciente["CPF"], dados_paciente["Nome"], dados_paciente["Idade"], dados_paciente["Telefone"])
-            self.__pacientes.append(paciente)
+            self.__paciente_dao.add(cpf, paciente)
         else:
             self.__telaPacientes.mostrarMensagem("ATENÇÃO: paciente já cadastrado!")
 
     def selecionarPacientePorCpf(self, cpf):
-        for paciente in self.__pacientes:
+        for paciente in self.__paciente_dao.get_all():
             if paciente.identidade == cpf:
                 return paciente
         return None
@@ -44,28 +44,29 @@ class ControllerPaciente():
         cpf = self.__telaPacientes.selecionarPaciente()
         paciente = self.selecionarPacientePorCpf(cpf)
         if paciente is not None:
-            self.__pacientes.remove(paciente)
+            self.__paciente_dao.remove(paciente)
         else:
             self.__telaPacientes.mostrarMensagem("ATENÇÃO: paciente não encontrado!")
 
     def listarPacientes(self):
-        for paciente in self.__pacientes:
-            self.__telaPacientes.mostrarPaciente({
-                "Nome": paciente.nome,
-                "CPF": paciente.identidade,
-                "Idade": paciente.idade,
-                "Telefone": paciente.telefone
-            })
+        if self.__paciente_dao.get_all() is not None:
+            for paciente in self.__paciente_dao.get_all():
+                self.__telaPacientes.mostrarPaciente({
+                    "Nome": paciente.nome,
+                    "CPF": paciente.identidade,
+                    "Idade": paciente.idade,
+                    "Telefone": paciente.telefone
+                })
+            return
+        print("nao ha pacientes para lsitar!")
+        return
+        
 
     def retornar(self):
-            with open("data/paciente.pkl", "wb") as f:
-                pickle.dump(self.__pacientes, f)
+            self.__paciente_dao.save()
             self.__controlador_sistema.inicializarSistema()
 
     def abreTela(self):
-        with open("data/paciente.pkl", "rb") as f:
-            nova_pessoa = pickle.load(f)
-        self.__pacientes = nova_pessoa
 
         listaOpcoes = {
             1: self.incluirPaciente,
