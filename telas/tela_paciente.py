@@ -48,7 +48,7 @@ class TelaPaciente:
               f"Idade DO PACIENTE: {dadosPaciente.get('Idade')}\n"
               f"Telefone DO PACIENTE: {dadosPaciente.get('Telefone')}\n")
 
-    def selecionar_paciente(self):
+    def selecionar_paciente_por_cpf(self):
         cpf = input("\nCPF do paciente que deseja selecionar: ").strip()
         while not cpf:
             print("O CPF não pode ser vazio.")

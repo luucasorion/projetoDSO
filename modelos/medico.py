@@ -1,4 +1,4 @@
-from modelos.pessoa import Pessoa
+from modelos.abstrato_pessoa import Pessoa
 
 class Medico(Pessoa):
     def __init__(self, crm: str, nome: str, especialidade: str):

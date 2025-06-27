@@ -12,7 +12,7 @@ class ControladorConsulta:
         self.__telaConsulta = TelaConsulta()
         self.__controlador_sistema = controladorSistemas    
 
-    def abreTela(self):
+    def abre_tela(self):
         
         opcoes = {
         1: self.incluir_consulta,

@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-class ViewSistema:
+class TelaSitema:
     def __init__(self, callback):
         self.callback = callback
 

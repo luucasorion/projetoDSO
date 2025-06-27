@@ -1,9 +1,9 @@
-from modelos.pessoa import Pessoa
+from modelos.abstrato_pessoa import Pessoa
 
 
 class Paciente (Pessoa):
-    def __init__(self, id, nome, idade : int, telefone : str):
-        super().__init__(id, nome)
+    def __init__(self, cpf, nome, idade : int, telefone : str):
+        super().__init__(cpf, nome)
         self.__idade = idade
         self.__telefone = telefone
     

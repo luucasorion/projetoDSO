@@ -3,7 +3,7 @@ from dados.dao.medico_DAO import MedicoDAO
 from telas.tela_medico import TelaMedico
 from modelos.medico import Medico
 
-class ControladorMedico(ControladorBase):
+class ControladorMedicoProvisorio(ControladorBase):
     def __init__(self, controlador_sistema):
         super().__init__(controlador_sistema)
 

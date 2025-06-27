@@ -1,4 +1,4 @@
-from telas.tela_sistema import ViewSistema
+from telas.tela_sistema import TelaSitema
 from controladores.controlador_medico import ControladorMedico
 from controladores.controlador_paciente import ControladorPaciente
 from controladores.controlador_consulta import ControladorConsulta
@@ -8,31 +8,30 @@ class ControladorSistema:
         self.controllerMedico = ControladorMedico(self)
         self.__controlador_paciente = ControladorPaciente(self)
         self.__controlador_consulta = ControladorConsulta(self)
-        self.__tela_sistema = ViewSistema(self.abreTela)
+        self.__tela_sistema = TelaSitema(self.abre_tela)
 
-    def inicializarSistema(self):
-        self.__tela_sistema.janela_opcoes()
-
-    def cadastrarMedico(self):
-        self.controllerMedico.abre_tela()
-
-    def cadastrarPaciente(self):
-        self.__controlador_paciente.abreTela()
-
-    def cadastraConsulta(self):
-        self.__controlador_consulta.abreTela()
-
-    def encerraSistema(self):
-        exit(0)
-
-    def abreTela(self, opcao):
-        listaOpcoes = {
-            3: self.encerraSistema,
-            0: self.cadastrarMedico,
-            1: self.cadastrarPaciente,
-            2: self.cadastraConsulta
+    def abre_tela(self, opcao):
+        lista_opcoes = {
+            3: self.encerra_sistema,
+            0: self.inicializar_medico,
+            1: self.inicializar_paciente,
+            2: self.inicializar_consulta
         }
-        funcao = listaOpcoes.get(opcao)
+        funcao = lista_opcoes.get(opcao)
         if funcao:
             funcao()
+
+    def inicializar_sistema(self):
+        self.__tela_sistema.janela_opcoes()
+    def inicializar_medico(self):
+        self.controllerMedico.abre_tela()
+    def inicializar_paciente(self):
+        self.__controlador_paciente.abre_tela()
+    def inicializar_consulta(self):
+        self.__controlador_consulta.abre_tela()
+
+    def encerra_sistema(self):
+        exit(0)
+
+    
 
