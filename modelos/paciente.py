@@ -1,4 +1,4 @@
-from models.pessoa import Pessoa
+from modelos.pessoa import Pessoa
 
 
 class Paciente (Pessoa):

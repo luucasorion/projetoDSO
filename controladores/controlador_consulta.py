@@ -1,35 +1,24 @@
-from views.telaConsulta import TelaConsulta
-from models.consulta import Consulta
+from telas.tela_consulta import TelaConsulta
+from modelos.consulta import Consulta
 from datetime import datetime
-import pickle
-from  models.medico import Medico
-from models.paciente import Paciente
+from modelos.medico import Medico
+from modelos.paciente import Paciente
 
 
-class ControllerConsulta:
+class ControladorConsulta:
     def __init__(self, controladorSistemas):
         super().__init__()
         self.__consultas = []
         self.__telaConsulta = TelaConsulta()
-        self.__controlador_sistema = controladorSistemas
-        self.__medicos: list[Medico] = []
-        self.__pacientes: list[Paciente] = []
-        
+        self.__controlador_sistema = controladorSistemas    
 
     def abreTela(self):
-        with open("data/paciente.pkl", "rb") as f:
-            nova_pessoa = pickle.load(f)
-        self.__pacientes = nova_pessoa
-
-        with open("data/medico.pkl", "rb") as f:
-            nova_pessoa = pickle.load(f)
-        self.__medicos = nova_pessoa
         
         opcoes = {
-        1: self.incluirConsulta,
-        2: self.alterarConsulta,
-        3: self.listarConsultas,
-        4: self.excluirConsulta,
+        1: self.incluir_consulta,
+        2: self.alterar_consulta,
+        3: self.listar_consultas,
+        4: self.excluir_consulta,
         0: self.retornar
         }
 
@@ -40,11 +29,11 @@ class ControllerConsulta:
     
     
     
-    def incluirConsulta(self): 
+    def incluir_consulta(self): 
         self.__controlador_sistema.controllerMedico.listarMedicos()
         dados_consulta = self.__telaConsulta.pegarDadosConsulta()
          
-        consulta_existente = self.selecionarConsultaPorCpfEData(
+        consulta_existente = self.selecionar_consulta_por_cpf_e_data(
             dados_consulta["CPF_Paciente"], dados_consulta["Data"], dados_consulta["Horario"]
         )
 
@@ -59,7 +48,7 @@ class ControllerConsulta:
         else:
             self.__telaConsulta.mostrarMensagem("ATENÇÃO: Consulta já existente!")
 
-    def selecionarConsultaPorCpfEData(self, cpf_paciente, data, horario):
+    def selecionar_consulta_por_cpf_e_data(self, cpf_paciente, data, horario):
         for consulta in self.__consultas:
             if (consulta.cpf_paciente == cpf_paciente and
                 consulta.data == data and
@@ -67,8 +56,8 @@ class ControllerConsulta:
                 return consulta
         return None
 
-    def alterarConsulta(self):
-        self.listarConsultas()
+    def alterar_consulta(self):
+        self.listar_consultas()
         cpf, data = self.__telaConsulta.selecionarConsulta()
         consulta = None
         for c in self.__consultas:
@@ -86,8 +75,8 @@ class ControllerConsulta:
         else:
             self.__telaConsulta.mostrarMensagem("ATENÇÃO: Consulta não encontrada.")
 
-    def excluirConsulta(self):
-        self.listarConsultas()
+    def excluir_consulta(self):
+        self.listar_consultas()
         cpf, data = self.__telaConsulta.selecionarConsulta()
         for consulta in self.__consultas:
             if consulta.cpf_paciente == cpf and consulta.data == data:
@@ -96,7 +85,7 @@ class ControllerConsulta:
                 return
         self.__telaConsulta.mostrarMensagem("ATENÇÃO: Consulta não encontrada.")
 
-    def listarConsultas(self):
+    def listar_consultas(self):
         if not self.__consultas:
             self.__telaConsulta.mostrarMensagem("Nenhuma consulta cadastrada.")
         else:

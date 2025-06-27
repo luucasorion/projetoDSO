@@ -1,4 +1,4 @@
-from models.medicamento import Medicamento
+from modelos.medicamento import Medicamento
 
 class Farmacia(Medicamento):
     def __init__(self):

@@ -1,20 +1,20 @@
-from views.viewSistema import ViewSistema
-from controllers.controllerMedico import ControllerMedico
-from controllers.controllerPaciente import ControllerPaciente
-from controllers.controladorConsultas import ControllerConsulta
+from telas.tela_sistema import ViewSistema
+from controladores.controlador_medico import ControladorMedico
+from controladores.controlador_paciente import ControladorPaciente
+from controladores.controlador_consulta import ControladorConsulta
 
 class ControladorSistema:
     def __init__(self):
-        self.controllerMedico = ControllerMedico(self)
-        self.__controlador_paciente = ControllerPaciente(self)
-        self.__controlador_consulta = ControllerConsulta(self)
+        self.controllerMedico = ControladorMedico(self)
+        self.__controlador_paciente = ControladorPaciente(self)
+        self.__controlador_consulta = ControladorConsulta(self)
         self.__tela_sistema = ViewSistema(self.abreTela)
 
     def inicializarSistema(self):
         self.__tela_sistema.janela_opcoes()
 
     def cadastrarMedico(self):
-        self.controllerMedico.abreTela()
+        self.controllerMedico.abre_tela()
 
     def cadastrarPaciente(self):
         self.__controlador_paciente.abreTela()
