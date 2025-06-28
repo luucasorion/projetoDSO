@@ -28,6 +28,21 @@ class ControladorMedico(ControladorBase):
     def _get_identidade(self, medico):
         return medico.identidade
 
+
+    def exclui_filiado(self, medico):
+
+        if medico is not None:
+            ids_consultas_para_remover = []
+
+            for consulta in self._controlador_sistema.controlador_consulta._dao.get_all():
+                if consulta.medico == medico:
+                    ids_consultas_para_remover.append(consulta.identidade)
+
+            if ids_consultas_para_remover:
+                for id_consulta in ids_consultas_para_remover:
+                    self._controlador_sistema.controlador_consulta._dao.remove(id_consulta)
+                
+
     def _atualizar_entidade(self, medico, novos_dados):
         medico.nome = novos_dados["Nome"]
         medico.identidade = novos_dados["CRM"]

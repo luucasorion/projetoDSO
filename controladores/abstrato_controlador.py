@@ -89,7 +89,9 @@ class ControladorBase(ABC):
 
     def excluir(self):
         self.listar()
+        
         id_entidade = self._selecionar_identificador()
+        self.exclui_filiado(id_entidade)
         entidade = self.selecionar_por_id(id_entidade)
         if entidade is not None:
             self._dao.remove(id_entidade)
@@ -113,3 +115,7 @@ class ControladorBase(ABC):
     def _id_chave(self):
         """Retorna a chave do identificador no dicionário de dados (ex: 'CRM' ou 'CPF')."""
         pass
+
+
+    def exclui_filiado(self):
+        pass    

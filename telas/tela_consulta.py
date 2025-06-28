@@ -22,20 +22,20 @@ class TelaConsulta:
     def pegar_dados_consulta(self):
         print("\n-------- DADOS DA CONSULTA ----------")
 
-        cpf_paciente = input("CPF do Paciente: ").strip()
-        while not cpf_paciente:
+        cpf = input("CPF do Paciente: ").strip()
+        while not cpf:
             print("O CPF do paciente não pode ser vazio.")
-            cpf_paciente = input("CPF do Paciente: ").strip()
+            cpf = input("CPF do Paciente: ").strip()
 
-        crm_medico = input("CRM do Médico: ").strip()
-        while not crm_medico:
+        crm = input("CRM do Médico: ").strip()
+        while not crm:
             print("O CRM do médico não pode ser vazio.")
-            crm_medico = input("CRM do Médico: ").strip()
+            crm = input("CRM do Médico: ").strip()
         
-        id_consulta = input("ID da Consulta: ").strip()
-        while not id_consulta:
+        identidade = input("ID da Consulta: ").strip()
+        while not identidade:
             print("O ID da consulta não pode ser vazio.")
-            crm_medico = input("ID da Consulta: ").strip()
+            identidade = input("ID da Consulta: ").strip()
         
         while True:
             data_input = input("Data da consulta (DD/MM/AAAA): ").strip()
@@ -46,34 +46,34 @@ class TelaConsulta:
                 print("Data inválida. Use o formato DD/MM/AAAA.")
 
         while True:
-            horario_input = input("Horário da consulta (HH:MM): ").strip()
+            hora_input = input("Horário da consulta (HH:MM): ").strip()
             try:
-                hora = datetime.strptime(horario_input, "%H:%M").time()
+                hora = datetime.strptime(hora_input, "%H:%M").time()
                 break
             except ValueError:
                 print("Horário inválido. Use o formato HH:MM.")
 
         return {
-            "CPF_paciente": cpf_paciente,
-            "CRM_medico": crm_medico,
-            "ID_consulta": id_consulta,
+            "CPF": cpf,
+            "CRM": crm,
+            "Identidade": identidade,
             "Data": data,
             "Hora": hora
         }
 
     def mostrar_consulta(self, dados_consulta):
-        print(f"\nCPF DO PACIENTE: {dados_consulta.get('CPF_paciente')}\n"
-              f"CRM DO MÉDICO: {dados_consulta.get('CRM_medico')}\n"
-              f"ID DA CONSULTA: {dados_consulta.get('ID_consulta')}\n"
+        print(f"\nCPF DO PACIENTE: {dados_consulta.get('CPF')}\n"
+              f"CRM DO MÉDICO: {dados_consulta.get('CRM')}\n"
+              f"ID DA CONSULTA: {dados_consulta.get('Identidade')}\n"
               f"DATA DA CONSULTA: {dados_consulta.get('Data').strftime('%d/%m/%Y')}\n"
               f"HORÁRIO DA CONSULTA: {dados_consulta.get('Hora').strftime('%H:%M')}\n")
 
     def selecionar_consulta(self):
-        ID_consulta = input("\nID da consulta que deseja selecionar: ").strip()
-        while not ID_consulta:
+        identidade = input("\nID da consulta que deseja selecionar: ").strip()
+        while not identidade:
             print("O ID não pode ser vazio.")
-            ID_consulta = input("ID da consulta que deseja selecionar: ").strip()
-        return ID_consulta
+            identidade = input("ID da consulta que deseja selecionar: ").strip()
+        return identidade
        
 
     def mostrar_mensagem(self, msg):
