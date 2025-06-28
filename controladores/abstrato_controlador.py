@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 class ControladorBase(ABC):
     def __init__(self, controlador_sistema):
-        self.__controlador_sistema = controlador_sistema
+        self._controlador_sistema = controlador_sistema
         self._dao = self._get_dao()
         self._tela = self._get_tela()
 
@@ -93,6 +93,7 @@ class ControladorBase(ABC):
         entidade = self.selecionar_por_id(id_entidade)
         if entidade is not None:
             self._dao.remove(id_entidade)
+            self._tela.mostrar_mensagem("Entidade removida!")
         else:
             self._tela.mostrar_mensagem("ATENÇÃO: entidade não encontrada!")
 
@@ -106,7 +107,7 @@ class ControladorBase(ABC):
 
     def retornar(self):
         self._dao.save()
-        self.__controlador_sistema.inicializarSistema()
+        self._controlador_sistema.inicializar_sistema()
 
     @abstractmethod
     def _id_chave(self):

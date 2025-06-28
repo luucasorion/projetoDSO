@@ -5,9 +5,9 @@ from controladores.controlador_consulta import ControladorConsulta
 
 class ControladorSistema:
     def __init__(self):
-        self.controllerMedico = ControladorMedico(self)
-        self.__controlador_paciente = ControladorPaciente(self)
-        self.__controlador_consulta = ControladorConsulta(self)
+        self.controlador_medico = ControladorMedico(self)
+        self.controlador_paciente = ControladorPaciente(self)
+        self.controlador_consulta = ControladorConsulta(self)
         self.__tela_sistema = TelaSitema(self.abre_tela)
 
     def abre_tela(self, opcao):
@@ -24,11 +24,11 @@ class ControladorSistema:
     def inicializar_sistema(self):
         self.__tela_sistema.janela_opcoes()
     def inicializar_medico(self):
-        self.controllerMedico.abre_tela()
+        self.controlador_medico.abre_tela()
     def inicializar_paciente(self):
-        self.__controlador_paciente.abre_tela()
+        self.controlador_paciente.abre_tela()
     def inicializar_consulta(self):
-        self.__controlador_consulta.abre_tela()
+        self.controlador_consulta.abre_tela()
 
     def encerra_sistema(self):
         exit(0)

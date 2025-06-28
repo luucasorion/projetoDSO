@@ -1,21 +1,37 @@
 from datetime import date, time
-from .paciente import Paciente
-from .medico import Medico
-class Consulta(Paciente, Medico):
-    def __init__(self, identidade : str, data: date, hora: time, status: str):
+from modelos.paciente import Paciente
+from modelos.medico import Medico
+
+class Consulta():
+    def __init__(self, medico: str, paciente: str , identidade : str, data: date, hora: time):
+
+        self.__medico = medico
+        self.__paciente = paciente
         self.__identidade = identidade
         self.__data = data
         self.__hora = hora
-        self.__status = status
 
     @property
-    def id(self):
-        return self.__id
-    @id.setter
-    def id (self, id):
-        self.__id = id
+    def medico(self):
+        return self.__medico
+    @medico.setter
+    def medico (self, medico):
+        self.__medico = medico
     
+    @property
+    def paciente(self):
+        return self.__paciente
+    @paciente.setter
+    def paciente (self, paciente):
+        self.__paciente = paciente
 
+    @property
+    def identidade(self):
+        return self.__identidade
+    @identidade.setter
+    def identidade (self, identidade):
+        self.__identidade = identidade
+    
     @property
     def data(self):
         return self.__data
@@ -23,7 +39,6 @@ class Consulta(Paciente, Medico):
     def data (self, data):
         self.__data = data
 
-    
     @property
     def hora(self):
         return self.__hora
@@ -31,11 +46,3 @@ class Consulta(Paciente, Medico):
     def hora (self, hora):
         self.__hora = hora
 
-
-    @property
-    def status(self):
-        return self.__status
-    @status.setter
-    def status(self, status):
-        self.__status = status
-           
