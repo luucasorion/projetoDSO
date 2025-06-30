@@ -7,37 +7,30 @@ class ControladorBase(ABC):
 
     @abstractmethod
     def _get_dao(self):
-        """Retorna o DAO específico."""
         pass
 
     @abstractmethod
     def _get_tela(self):
-        """Retorna a tela específica."""
         pass
 
     @abstractmethod
     def _criar_objeto(self, dados):
-        """Cria a instância do modelo (ex: Medico, Paciente)."""
         pass
 
     @abstractmethod
     def _mostrar_entidade(self, entidade):
-        """Exibe uma entidade na tela (ex: mostrar_medico, mostrar_paciente)."""
         pass
 
     @abstractmethod
     def _pegar_dados(self):
-        """Pega os dados da tela (ex: pegar_dados_medico, pegar_dados_paciente)."""
         pass
 
     @abstractmethod
     def _selecionar_identificador(self):
-        """Pega o identificador para buscar a entidade (ex: selecionar_paciente, selecionar_medico)."""
         pass
 
     @abstractmethod
     def _get_identidade(self, entidade):
-        """Retorna o identificador único da entidade (ex: crm, cpf)."""
         pass
 
     def abre_tela(self):
@@ -57,7 +50,13 @@ class ControladorBase(ABC):
                 self._tela.mostrar_mensagem("Opção inválida!")
 
     def incluir(self):
-        dados = self._pegar_dados()
+        while True:
+            try:
+                dados = self._pegar_dados()
+                break
+            except Exception as e:
+                self._tela.mostrar_mensagem(str(e))
+
         id_entidade = dados[self._id_chave()]
         if self.selecionar_por_id(id_entidade) is None:
             entidade = self._criar_objeto(dados)
@@ -74,10 +73,20 @@ class ControladorBase(ABC):
     def alterar(self):
         if self.listar() == 1:
             return
-        id_entidade = self._selecionar_identificador()
+        while True:
+            try:
+                id_entidade = self._selecionar_identificador()
+                break
+            except Exception as e:
+                self._tela.mostrar_mensagem(str(e))
         entidade = self.selecionar_por_id(id_entidade)
         if entidade is not None:
-            novos_dados = self._pegar_dados()
+            while True:
+                try:
+                    novos_dados = self._pegar_dados()
+                    break
+                except Exception as e:
+                    self._tela.mostrar_mensagem(str(e))
             self._atualizar_entidade(entidade, novos_dados)
             self.listar()
         else:
@@ -85,14 +94,18 @@ class ControladorBase(ABC):
 
     @abstractmethod
     def _atualizar_entidade(self, entidade, novos_dados):
-        """Atualiza os atributos da entidade com novos dados."""
         pass
 
     def excluir(self):
         if self.listar() == 1:
             return
-        
-        id_entidade = self._selecionar_identificador()
+        while True:
+            try:
+                id_entidade = self._selecionar_identificador()
+                break
+            except Exception as e:
+                self._tela.mostrar_mensagem(str(e))
+
         self.exclui_filiado(id_entidade)
         entidade = self.selecionar_por_id(id_entidade)
         if entidade is not None:
@@ -116,10 +129,7 @@ class ControladorBase(ABC):
 
     @abstractmethod
     def _id_chave(self):
-        """Retorna a chave do identificador no dicionário de dados (ex: 'CRM' ou 'CPF')."""
         pass
 
-
-    def exclui_filiado(self):
-        pass    
-
+    def exclui_filiado(self, id_entidade):
+        pass

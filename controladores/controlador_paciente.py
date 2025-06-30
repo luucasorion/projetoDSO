@@ -20,10 +20,18 @@ class ControladorPaciente(ControladorBase):
         self._tela.mostrar_paciente({"Nome": paciente.nome, "CPF": paciente.identidade, "Idade": paciente.idade, "Telefone": paciente.telefone})
 
     def _pegar_dados(self):
-        return self._tela.pegar_dados_paciente()
+        while True:
+            try:
+                return self._tela.pegar_dados_paciente()
+            except Exception as e:
+                self._tela.mostrar_mensagem(str(e))
 
     def _selecionar_identificador(self):
-        return self._tela.selecionar_paciente_por_cpf()
+        while True:
+            try:
+                return self._tela.selecionar_paciente_por_cpf()
+            except Exception as e:
+                self._tela.mostrar_mensagem(str(e))
 
     def _get_identidade(self, paciente):
         return paciente.identidade

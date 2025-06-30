@@ -8,8 +8,10 @@ class ControladorConsulta(ControladorBase):
         super().__init__(controlador_sistema)
    
     def incluir(self):
+        self.listar_todos_medicos()
+        self.listar_todos_pacientes()
         dados = self._pegar_dados()
-        if self._controlador_sistema.controlador_medico.selecionar_por_id(dados["CRM"]) is None or self. _controlador_sistema.controlador_paciente.selecionar_por_id(dados["CPF"]) is None:
+        if self._controlador_sistema.controlador_medico.selecionar_por_id(dados["CRM"]) is None or self._controlador_sistema.controlador_paciente.selecionar_por_id(dados["CPF"]) is None:
             return self._tela.mostrar_mensagem("ATENÇÃO: Medico ou Paciente não cadastrados!")
 
         id_entidade = dados[self._id_chave()]
@@ -18,7 +20,6 @@ class ControladorConsulta(ControladorBase):
             self._dao.add(id_entidade, entidade)
         else:
             self._tela.mostrar_mensagem("ATENÇÃO: entidade já cadastrada!")
-
 
     def _get_dao(self):
         return ConsultaDAO()
@@ -75,6 +76,24 @@ class ControladorConsulta(ControladorBase):
         else:
             self._tela.mostrar_mensagem("ATENÇÃO: entidade não encontrada!")
 
+    def listar_todos_medicos(self):
+        medicos = self._controlador_sistema.controlador_medico._dao.get_all()
+        if not medicos:
+            self._tela.mostrar_mensagem("Nenhum médico cadastrado.")
+            return
+        print("\n-------- Lista de Médicos --------")
+        for medico in medicos:
+            print(f"Nome: {medico.nome}, CRM: {medico.identidade}, Especialidade: {medico.especialidade}")
+
+    def listar_todos_pacientes(self):
+        pacientes = self._controlador_sistema.controlador_paciente._dao.get_all()
+        if not pacientes:
+            self._tela.mostrar_mensagem("Nenhum paciente cadastrado.")
+            return
+        print("\n-------- Lista de Pacientes --------")
+        for paciente in pacientes:
+            print(f"Nome: {paciente.nome}, CPF: {paciente.identidade}, Idade: {paciente.idade}, Telefone: {paciente.telefone}")
+
     def abre_tela(self):
         opcoes = {
             1: self.incluir,
@@ -83,6 +102,8 @@ class ControladorConsulta(ControladorBase):
             4: self.listar_por_crm,
             5: self.listar_por_cpf,
             6: self.excluir,
+            7: self.listar_todos_medicos,
+            8: self.listar_todos_pacientes,
             0: self.retornar
         }
         while True:
@@ -91,4 +112,3 @@ class ControladorConsulta(ControladorBase):
                 opcoes[opcao]()
             else:
                 self._tela.mostrar_mensagem("Opção inválida!")
-            
