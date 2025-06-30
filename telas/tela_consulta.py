@@ -1,4 +1,7 @@
 from datetime import datetime
+import re
+from excecoes.excecao_campo_vazio import CampoVazioException
+from excecoes.excecao_formato_invalido import FormatoInvalidoException
 
 class TelaConsulta:
 
@@ -23,45 +26,47 @@ class TelaConsulta:
 
     def pegar_dados_consulta(self):
         print("\n-------- DADOS DA CONSULTA ----------")
-
-        cpf = input("CPF do Paciente: ").strip()
-        while not cpf:
-            print("O CPF do paciente não pode ser vazio.")
-            cpf = input("CPF do Paciente: ").strip()
-
-        crm = input("CRM do Médico: ").strip()
-        while not crm:
-            print("O CRM do médico não pode ser vazio.")
-            crm = input("CRM do Médico: ").strip()
-        
-        identidade = input("ID da Consulta: ").strip()
-        while not identidade:
-            print("O ID da consulta não pode ser vazio.")
-            identidade = input("ID da Consulta: ").strip()
-        
         while True:
-            data_input = input("Data da consulta (DD/MM/AAAA): ").strip()
             try:
-                data = datetime.strptime(data_input, "%d/%m/%Y").date()
-                break
-            except ValueError:
-                print("Data inválida. Use o formato DD/MM/AAAA.")
+                cpf = input("CPF do Paciente: ").strip()
+                if not cpf:
+                    raise CampoVazioException("CPF")
+                if not re.match(r"^\d{3}\.\d{3}\.\d{3}\-\d{2}$", cpf):
+                    raise FormatoInvalidoException("CPF", "000.000.000-00")
 
-        while True:
-            hora_input = input("Horário da consulta (HH:MM): ").strip()
-            try:
-                hora = datetime.strptime(hora_input, "%H:%M").time()
-                break
-            except ValueError:
-                print("Horário inválido. Use o formato HH:MM.")
+                crm = input("CRM do Médico: ").strip()
+                if not crm:
+                    raise CampoVazioException("CRM")
+                if not re.match(r"^.{5,}$", crm):
+                    raise FormatoInvalidoException("CRM", "mínimo 5 caracteres")
 
-        return {
-            "CPF": cpf,
-            "CRM": crm,
-            "Identidade": identidade,
-            "Data": data,
-            "Hora": hora
-        }
+                identidade = input("ID da Consulta: ").strip()
+                if not identidade:
+                    raise CampoVazioException("ID da Consulta")
+
+                data_input = input("Data da consulta (DD/MM/AAAA): ").strip()
+                try:
+                    data = datetime.strptime(data_input, "%d/%m/%Y").date()
+                except ValueError:
+                    raise FormatoInvalidoException("Data", "DD/MM/AAAA")
+                if data < datetime.today().date():
+                    raise FormatoInvalidoException("Data", "Data não pode ser no passado")
+
+                hora_input = input("Horário da consulta (HH:MM): ").strip()
+                try:
+                    hora = datetime.strptime(hora_input, "%H:%M").time()
+                except ValueError:
+                    raise FormatoInvalidoException("Hora", "HH:MM")
+
+                return {
+                    "CPF": cpf,
+                    "CRM": crm,
+                    "Identidade": identidade,
+                    "Data": data,
+                    "Hora": hora
+                }
+            except (CampoVazioException, FormatoInvalidoException) as e:
+                print(e)
 
     def mostrar_consulta(self, dados_consulta):
         print(f"\nCPF DO PACIENTE: {dados_consulta.get('CPF')}\n"
@@ -71,12 +76,14 @@ class TelaConsulta:
               f"HORÁRIO DA CONSULTA: {dados_consulta.get('Hora').strftime('%H:%M')}\n")
 
     def selecionar_consulta(self):
-        identidade = input("\nID da consulta que deseja selecionar: ").strip()
-        while not identidade:
-            print("O ID não pode ser vazio.")
-            identidade = input("ID da consulta que deseja selecionar: ").strip()
-        return identidade
-       
+        while True:
+            try:
+                identidade = input("\nID da consulta que deseja selecionar: ").strip()
+                if not identidade:
+                    raise CampoVazioException("ID da Consulta")
+                return identidade
+            except CampoVazioException as e:
+                print(e)
 
     def mostrar_mensagem(self, msg):
         print(f"\n{msg}")

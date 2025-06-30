@@ -1,3 +1,7 @@
+import re
+from excecoes.excecao_campo_vazio import CampoVazioException
+from excecoes.excecao_formato_invalido import FormatoInvalidoException
+
 class TelaMedico:
 
     def tela_opcoes(self):
@@ -19,23 +23,29 @@ class TelaMedico:
 
     def pegar_dados_medico(self):
         print("\n-------- DADOS DO MEDICO ----------")
+        while True:
+            try:
+                crm = input("CRM: ").strip()
+                if not crm:
+                    raise CampoVazioException("CRM")
+                if not re.match(r"^.{5,}$", crm):
+                    raise FormatoInvalidoException("CRM", "mínimo 5 caracteres")
 
-        crm = input("CRM: ").strip()
-        while not crm:
-            print("O CRM não pode ser vazio.")
-            crm = input("CRM: ").strip()
+                nome = input("Nome: ").strip()
+                if not nome:
+                    raise CampoVazioException("Nome")
+                if not re.match(r"^[A-Za-zÀ-ÿ\s]{3,}$", nome):
+                    raise FormatoInvalidoException("Nome", "mínimo 3 caracteres, apenas letras e espaços")
 
-        nome = input("Nome: ").strip()
-        while not nome:
-            print("O nome não pode ser vazio.")
-            nome = input("Nome: ").strip()
+                especialidade = input("Especialidade: ").strip()
+                if not especialidade:
+                    raise CampoVazioException("Especialidade")
+                if not re.match(r"^[A-Za-zÀ-ÿ\s]{4,}$", especialidade):
+                    raise FormatoInvalidoException("Especialidade", "mínimo 4 caracteres, apenas letras e espaços")
 
-        especialidade = input("Especialidade: ").strip()
-        while not especialidade:
-            print("A especialidade não pode ser vazia.")
-            especialidade = input("Especialidade: ").strip()    
-
-        return {"CRM": crm, "Nome": nome, "Especialidade": especialidade}
+                return {"CRM": crm, "Nome": nome, "Especialidade": especialidade}
+            except (CampoVazioException, FormatoInvalidoException) as e:
+                print(e)
 
     def mostrar_medico(self, dadosMedico):
         print(f"\nNOME DO MEDICO: {dadosMedico.get('Nome')}\n"
@@ -43,11 +53,16 @@ class TelaMedico:
               f"ESPECIALIDADE: {dadosMedico.get('Especialidade')}\n")
 
     def selecionar_medico_por_crm(self):
-        crm = input("\nCRM do medico que deseja selecionar: ").strip()
-        while not crm:
-            print("O CRM não pode ser vazio.")
-            crm = input("CRM do medico que deseja selecionar: ").strip()
-        return crm
+        while True:
+            try:
+                crm = input("\nCRM do medico que deseja selecionar: ").strip()
+                if not crm:
+                    raise CampoVazioException("CRM")
+                if not re.match(r"^.{5,}$", crm):
+                    raise FormatoInvalidoException("CRM", "mínimo 5 caracteres")
+                return crm
+            except (CampoVazioException, FormatoInvalidoException) as e:
+                print(e)
 
     def mostrar_mensagem(self, msg):
         print(f"\n{msg}")
