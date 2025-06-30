@@ -72,7 +72,8 @@ class ControladorBase(ABC):
         return None
 
     def alterar(self):
-        self.listar()
+        if self.listar() == 1:
+            return
         id_entidade = self._selecionar_identificador()
         entidade = self.selecionar_por_id(id_entidade)
         if entidade is not None:
@@ -88,7 +89,8 @@ class ControladorBase(ABC):
         pass
 
     def excluir(self):
-        self.listar()
+        if self.listar() == 1:
+            return
         
         id_entidade = self._selecionar_identificador()
         self.exclui_filiado(id_entidade)
@@ -106,6 +108,7 @@ class ControladorBase(ABC):
                 self._mostrar_entidade(entidade)
         else:
             print("Não há entidades para listar!")
+            return 1
 
     def retornar(self):
         self._dao.save()
@@ -119,3 +122,4 @@ class ControladorBase(ABC):
 
     def exclui_filiado(self):
         pass    
+

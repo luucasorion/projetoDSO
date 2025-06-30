@@ -50,3 +50,45 @@ class ControladorConsulta(ControladorBase):
 
     def _id_chave(self):
         return "Identidade"
+
+    def listar_por_crm(self):
+        if self._controlador_sistema.controlador_medico.listar() == 1:
+            return
+        id_entidade = self._controlador_sistema.controlador_medico._selecionar_identificador()
+        entidade = self._controlador_sistema.controlador_medico.selecionar_por_id(id_entidade)
+        if entidade is not None:
+            for m in self._dao.get_all():
+                if m.medico == entidade.identidade:
+                    self._mostrar_entidade(m)
+        else:
+            self._tela.mostrar_mensagem("ATENÇÃO: entidade não encontrada!")
+    
+    def listar_por_cpf(self):
+        if self._controlador_sistema.controlador_paciente.listar() == 1:
+            return
+        id_entidade = self._controlador_sistema.controlador_paciente._selecionar_identificador()
+        entidade = self._controlador_sistema.controlador_paciente.selecionar_por_id(id_entidade)
+        if entidade is not None:
+            for m in self._dao.get_all():
+                if m.paciente == entidade.identidade:
+                    self._mostrar_entidade(m)
+        else:
+            self._tela.mostrar_mensagem("ATENÇÃO: entidade não encontrada!")
+
+    def abre_tela(self):
+        opcoes = {
+            1: self.incluir,
+            2: self.alterar,
+            3: self.listar,
+            4: self.listar_por_crm,
+            5: self.listar_por_cpf,
+            6: self.excluir,
+            0: self.retornar
+        }
+        while True:
+            opcao = self._tela.tela_opcoes()
+            if opcao in opcoes:
+                opcoes[opcao]()
+            else:
+                self._tela.mostrar_mensagem("Opção inválida!")
+            

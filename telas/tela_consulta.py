@@ -8,11 +8,13 @@ class TelaConsulta:
                   "1 - Incluir consulta\n"
                   "2 - Alterar consulta\n"
                   "3 - Listar consultas\n"
-                  "4 - Excluir consulta\n"
+                  "4 - Listar consultas por CRM\n"
+                  "5 - Listar consultas por CPF\n"
+                  "6 - Excluir consulta\n"
                   "0 - Retornar")
             try:
                 opcao = int(input("Escolha a opção: "))
-                if opcao in [0, 1, 2, 3, 4]:
+                if opcao in [0, 1, 2, 3, 4, 5, 6]:
                     return opcao
                 else:
                     print("Opção inválida. Tente novamente.")
