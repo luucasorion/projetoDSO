@@ -1,6 +1,6 @@
 class TelaPaciente:
 
-    def telaOpcoes(self):
+    def tela_opcoes(self):
         while True:
             print("\n-------- Pacientes ----------\n"
                   "1 - Incluir paciente\n"
@@ -17,7 +17,7 @@ class TelaPaciente:
             except ValueError:
                 print("Entrada inválida. Digite um número.")
 
-    def pegarDadosPaciente(self):
+    def pegar_dados_paciente(self):
         print("\n-------- DADOS DO PACIENTE ----------")
 
         cpf = input("CPF: ").strip()
@@ -42,18 +42,18 @@ class TelaPaciente:
 
         return {"CPF": cpf, "Nome": nome, "Idade" : idade, "Telefone" : telefone }
 
-    def mostrarPaciente(self, dadosPaciente):
+    def mostrar_paciente(self, dadosPaciente):
         print(f"\nNOME DO PACIENTE: {dadosPaciente.get('Nome')}\n"
               f"CPF DO PACIENTE: {dadosPaciente.get('CPF')}\n"
               f"Idade DO PACIENTE: {dadosPaciente.get('Idade')}\n"
               f"Telefone DO PACIENTE: {dadosPaciente.get('Telefone')}\n")
 
-    def selecionarPaciente(self):
+    def selecionar_paciente_por_cpf(self):
         cpf = input("\nCPF do paciente que deseja selecionar: ").strip()
         while not cpf:
             print("O CPF não pode ser vazio.")
             cpf = input("CPF do paciente que deseja selecionar: ").strip()
         return cpf
 
-    def mostrarMensagem(self, msg):
+    def mostrar_mensagem(self, msg):
         print(f"\n{msg}")

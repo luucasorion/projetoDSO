@@ -1,6 +1,6 @@
 class TelaMedico:
 
-    def telaOpcoes(self):
+    def tela_opcoes(self):
         while True:
             print("\n-------- Medicos ----------\n"
                   "1 - Incluir medico\n"
@@ -17,7 +17,7 @@ class TelaMedico:
             except ValueError:
                 print("Entrada inválida. Digite um número.")
 
-    def pegarDadosMedico(self):
+    def pegar_dados_medico(self):
         print("\n-------- DADOS DO MEDICO ----------")
 
         crm = input("CRM: ").strip()
@@ -37,17 +37,17 @@ class TelaMedico:
 
         return {"CRM": crm, "Nome": nome, "Especialidade": especialidade}
 
-    def mostrarMedico(self, dadosMedico):
+    def mostrar_medico(self, dadosMedico):
         print(f"\nNOME DO MEDICO: {dadosMedico.get('Nome')}\n"
               f"CRM DO MEDICO: {dadosMedico.get('CRM')}\n"
               f"ESPECIALIDADE: {dadosMedico.get('Especialidade')}\n")
 
-    def selecionarMedico(self):
+    def selecionar_medico_por_crm(self):
         crm = input("\nCRM do medico que deseja selecionar: ").strip()
         while not crm:
             print("O CRM não pode ser vazio.")
             crm = input("CRM do medico que deseja selecionar: ").strip()
         return crm
 
-    def mostrarMensagem(self, msg):
+    def mostrar_mensagem(self, msg):
         print(f"\n{msg}")

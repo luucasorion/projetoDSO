@@ -1,5 +1,5 @@
-from views.telaFarmacia import TelaFarmacia
-from models.medicamento import Medicamento
+from telas.tela_farmacia import TelaFarmacia
+from modelos.medicamento import Medicamento
 
 class ControllerFarmacia:
     def __init__(self):
